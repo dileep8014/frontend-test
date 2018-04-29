@@ -1,0 +1,17 @@
+@keyframes color-red-fade {
+    0% {
+        color:indianred;
+    }
+    100% {
+        color:#333333;
+    }
+}
+
+@keyframes color-green-fade {
+    0% {
+        color:green;
+    }
+    100% {
+        color:#333333;
+    }
+}
