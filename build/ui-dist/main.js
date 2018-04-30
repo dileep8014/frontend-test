@@ -70542,7 +70542,6 @@
 	  var socket = (0, _socket2.default)('', { path: '/ws' });
 	  var RETRY_INTERVAL = 5000;
 	  var intervalTimer = null;
-	  var reconnect_attempts = 0;
 	
 	  socket.on('snapshot', function (data) {
 	    console.log(data);
@@ -70555,10 +70554,15 @@
 	    console.log('connection closed');
 	  });
 	  socket.on('disconnect', function () {
-	    //on disconnect timer will try to reconnect and if connected timer will be reset
+	    /*on disconnect timer will try to reconnect using interval can also implement using
+	         io.connect({
+	             reconnection: true,
+	             reconnectionDelay: 1000,
+	             reconnectionDelayMax : 5000,
+	             reconnectionAttempts: 99999
+	         })
+	     */
 	    intervalTimer = window.setInterval(function () {
-	
-	      reconnect_attempts++;
 	      if (socket.connected) {
 	        clearInterval(intervalTimer);
 	        intervalTimer = null;
@@ -70702,9 +70706,6 @@
 	    return _this;
 	  }
 	
-	  //update entries twice a second
-	
-	
 	  (0, _createClass3.default)(App, [{
 	    key: 'shouldComponentUpdate',
 	    value: function shouldComponentUpdate() {
@@ -70713,7 +70714,7 @@
 	      if (!this.shouldUpdate) {
 	        return false;
 	      }
-	
+	      //update entries twice a second
 	      this.shouldUpdate = false;
 	      setTimeout(function () {
 	        return _this2.shouldUpdate = true;
@@ -70787,7 +70788,7 @@
 	    value: function componentDidMount() {
 	      if (socket) {
 	        socket.on('snapshot', this.onSnapshotReceived);
-	        socket.on('updates', _lodash2.default.throttle(this.onUpdateReceived, 500));
+	        socket.on('updates', this.onUpdateReceived);
 	      }
 	    }
 	  }, {

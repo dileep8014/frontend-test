@@ -45,7 +45,6 @@ function initSocket() {
                reconnectionAttempts: 99999
            })
        */
-      
       intervalTimer = window.setInterval(() => {
           if (socket.connected) {
               clearInterval(intervalTimer);

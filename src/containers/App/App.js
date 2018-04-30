@@ -5,6 +5,7 @@ import '../../../node_modules/fixed-data-table/dist/fixed-data-table.css';
 import _ from 'lodash';
 import './app.css';
 
+
 @connect(
     state => ({rows: state.rows, cols: state.cols || new Array(10)})
 )
@@ -25,13 +26,12 @@ export default class App extends Component {
     this._generateCols = this._generateCols.bind(this);
     this.shouldUpdate = true;
   }
-  
-  //update entries twice a second
+    
   shouldComponentUpdate() {
     if(!this.shouldUpdate) {
       return false;
     }
-    
+    //update entries twice a second
     this.shouldUpdate = false;
     setTimeout(() =>  this.shouldUpdate = true, 5000);
     return true;
@@ -94,7 +94,7 @@ export default class App extends Component {
   componentDidMount() {
     if (socket) {
       socket.on('snapshot', this.onSnapshotReceived);
-      socket.on('updates', _.throttle(this.onUpdateReceived, 500));
+      socket.on('updates', this.onUpdateReceived);
     }
   };
   componentWillUnmount() {
